@@ -1,0 +1,12 @@
+{
+  "name": "email-to-discord",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "mailparser": "^3.3.3",
+    "node-fetch": "^3.0.0",
+    "smtp-server": "^3.9.0"
+  }
+}
