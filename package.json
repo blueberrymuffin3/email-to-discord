@@ -5,6 +5,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "form-data": "^4.0.0",
     "mailparser": "^3.3.3",
     "node-fetch": "^3.0.0",
     "smtp-server": "^3.9.0"
