@@ -22,4 +22,4 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: ghcr.io/bmxguy100/mail-to-discord
+          tags: ghcr.io/blueberrymuffin3/mail-to-discord
