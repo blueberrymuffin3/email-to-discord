@@ -65,26 +65,36 @@ async function onData(stream) {
     }
 
     let parsed = await simpleParser(email, {})
-    console.log(`New message from ${parsed.from.text} to ${parsed.to?.text} "${parsed.subject}"`)
+    console.log(`New message from ${parsed.from?.text} to ${parsed.to?.text} "${parsed.subject}"`)
 
     console.log(parsed)
-    let content = parsed.text.trim()
-        .split('\n')
-        .map(line => `> ${line || ''}\n`)
+    let content = 'No Content'
+    if (parsed.text) {
+        content = parsed.text.trim()
+            .split('\n')
+            .map(line => `> ${line || ''}\n`)
+    }
 
     console.log('Forwarding message to discord webhook')
 
-    let to = ''
-    if (Array.isArray(parsed.to)) {
-        to = parsed.to.map(x => x.text).join(', ')
-    } else {
-        to = parsed.to.text
+    let to = 'Unknown'
+    if (parsed.to) {
+        if (Array.isArray(parsed.to)) {
+            to = parsed.to.map(x => x.text).join(', ')
+        } else {
+            to = parsed.to.text
+        }
+    }
+
+    let from = 'Unknown'
+    if (parsed.from) {
+        from = parsed.from.text.trim(0, FIELD_MAX_LEN)
     }
 
     let message = `To: \`${to}\`\n` +
         `Date: <t:${Math.floor(parsed.date?.getTime() / 1000)}>\n` +
         `Subject: **${parsed.subject.trim(0, FIELD_MAX_LEN)}**\n`
-    let username = `Email from ${parsed.from.text.trim(0, FIELD_MAX_LEN)}`
+    let username = `Email from ${from}`
 
     for (let line of content) {
         if (message.length + line.length + EMAIL_TRUNCATED_MESSAGE.length > MAX_MESSAGE_LEN) {
